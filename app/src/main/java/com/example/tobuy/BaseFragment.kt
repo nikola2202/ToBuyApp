@@ -14,5 +14,11 @@ abstract class BaseFragment:Fragment() {
         get() = AppDatabase.getDatabase(requireActivity())
 
     protected val sharedViewModel: ToBuyViewModel by activityViewModels()
+    protected fun navigateUp() {
+        mainActivity.navController.navigateUp()
+    }
+    protected fun navigateViaNavGraph(actionID:Int) {
+        mainActivity.navController.navigate(actionID)
+    }
 
 }
