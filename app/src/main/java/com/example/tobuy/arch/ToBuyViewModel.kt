@@ -1,6 +1,5 @@
 package com.example.tobuy.arch
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -24,11 +23,15 @@ class ToBuyViewModel:ViewModel() {
     }
 
     fun insertItem(itemEntity: ItemEntity) {
-        repository.insertItem(itemEntity)
+        viewModelScope.launch {
+            repository.insertItem(itemEntity)
+        }
     }
 
     fun deleteItem(itemEntity: ItemEntity) {
-        repository.deleteItem(itemEntity)
+        viewModelScope.launch {
+            repository.deleteItem(itemEntity)
+        }
     }
 
 }
