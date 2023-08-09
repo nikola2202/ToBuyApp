@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.tobuy.BaseFragment
 import com.example.tobuy.R
 import com.example.tobuy.database.entity.ItemEntity
@@ -26,9 +27,32 @@ class AddItemEntityFragment:BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.saveButton.setOnClickListener {
             saveItemEntityToDatabase()
         }
+
+        sharedViewModel.transactionCompleteLiveData.observe(viewLifecycleOwner) { complete ->
+            if (complete) {
+                Toast.makeText(requireActivity(),"Item saved",Toast.LENGTH_SHORT).show()
+
+                binding.titleEditText.text = null
+                binding.titleEditText.requestFocus()
+                mainActivity.showKeyboard()
+
+                binding.descriptionEditText.text = null
+                binding.radioGroup.check(R.id.radioButtonLow)
+            }
+        }
+
+        binding.titleEditText.requestFocus()
+        mainActivity.showKeyboard()
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        sharedViewModel.transactionCompleteLiveData.postValue(false)
     }
 
     private fun saveItemEntityToDatabase() {

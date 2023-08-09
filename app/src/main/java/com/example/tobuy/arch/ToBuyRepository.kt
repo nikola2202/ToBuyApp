@@ -2,6 +2,7 @@ package com.example.tobuy.arch
 
 import com.example.tobuy.database.AppDatabase
 import com.example.tobuy.database.entity.ItemEntity
+import kotlinx.coroutines.flow.Flow
 
 class ToBuyRepository(
     private val appDatabase: AppDatabase
@@ -15,7 +16,7 @@ class ToBuyRepository(
         appDatabase.itemEntityDao().delete(itemEntity)
     }
 
-    suspend fun getAllItems(): List<ItemEntity> {
+    fun getAllItems(): Flow<List<ItemEntity>> {
         return appDatabase.itemEntityDao().getAllItemEntities()
     }
 }
