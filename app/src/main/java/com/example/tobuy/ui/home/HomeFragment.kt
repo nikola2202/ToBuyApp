@@ -53,9 +53,7 @@ class HomeFragment:BaseFragment(),ItemEntityInterface {
                     val removedItem = model?.itemEntity?: return
                     sharedViewModel.deleteItem(removedItem)
                 }
-
             })
-
     }
 
     override fun onResume() {
@@ -64,7 +62,13 @@ class HomeFragment:BaseFragment(),ItemEntityInterface {
     }
 
     override fun onBumpPriority(itemEntity: ItemEntity) {
-        //todo
+        val currentPriority = itemEntity.priority
+        var newPriority = currentPriority + 1
+        if (newPriority > 3) {
+            newPriority = 1
+        }
+        val updatedItemEntity = itemEntity.copy(priority = newPriority)
+        sharedViewModel.updateItem(updatedItemEntity)
     }
 
     override fun onDestroyView() {
