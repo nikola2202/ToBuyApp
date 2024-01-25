@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.airbnb.epoxy.EpoxyTouchHelper
-import com.airbnb.epoxy.EpoxyTouchHelper.SwipeCallbacks
 import com.example.tobuy.BaseFragment
 import com.example.tobuy.R
 import com.example.tobuy.database.entity.ItemEntity
@@ -69,6 +68,11 @@ class HomeFragment:BaseFragment(),ItemEntityInterface {
         }
         val updatedItemEntity = itemEntity.copy(priority = newPriority)
         sharedViewModel.updateItem(updatedItemEntity)
+    }
+
+    override fun onItemSelected(itemEntity: ItemEntity) {
+        val navDirections = HomeFragmentDirections.actionHomeFragmentToAddItemEntityFragment(itemEntity.id)
+        navigateViaNavGraph(navDirections)
     }
 
     override fun onDestroyView() {

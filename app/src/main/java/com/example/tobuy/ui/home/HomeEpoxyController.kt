@@ -84,7 +84,13 @@ class HomeEpoxyController(
                 3 -> android.R.color.holo_red_dark
                 else -> R.color.gray_700
             }
-            priorityTextView.setBackgroundColor(ContextCompat.getColor(root.context,colorRes))
+            val color = ContextCompat.getColor(root.context,colorRes)
+            priorityTextView.setBackgroundColor(color)
+
+            root.setOnClickListener{
+                itemEntityInterface.onItemSelected(itemEntity)
+            }
+
         }
     }
 
