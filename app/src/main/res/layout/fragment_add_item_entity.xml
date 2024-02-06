@@ -24,6 +24,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/titleEditText"
+                android:inputType="textCapSentences"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -43,7 +44,9 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/descriptionEditText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                />
 
         </com.google.android.material.textfield.TextInputLayout>
         
