@@ -10,18 +10,8 @@
         android:layout_height="match_parent"
         android:id="@+id/epoxyRecyclerView"
         app:spanCount="3"
+        android:clipChildren="false"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Profile"
-        android:textSize="18sp"
-        android:textAllCaps="true"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:textAlignment="gravity"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

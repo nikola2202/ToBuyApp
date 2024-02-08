@@ -12,6 +12,9 @@ class ProfileFragment: BaseFragment() {
     private var _binding : FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
+    private val profileEpoxyController = ProfileEpoxyController(
+        onCategoryEmptyStateClicked = ::onCategoryEmptyStateClicked
+    )
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -19,6 +22,20 @@ class ProfileFragment: BaseFragment() {
     ): View? {
         _binding = FragmentProfileBinding.inflate(inflater,container,false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.epoxyRecyclerView.setController(profileEpoxyController)
+
+        sharedViewModel.categoryEntitiesLiveData.observe(viewLifecycleOwner) {categoryEntityList->
+            profileEpoxyController.categories = categoryEntityList
+        }
+    }
+
+    private fun onCategoryEmptyStateClicked() {
+        TODO("Not yet implemented")
     }
 
     override fun onDestroy() {
