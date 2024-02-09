@@ -21,9 +21,9 @@ class AddItemEntityFragment:BaseFragment() {
 
     private val safeArgs: AddItemEntityFragmentArgs by navArgs()
     private val selectedItemEntity: ItemEntity? by lazy {
-        sharedViewModel.itemEntitiesLiveData.value?.find {
-            it.id == safeArgs.selectedItemEntityId
-        }
+        sharedViewModel.itemWithCategoryEntitiesLiveData.value?.find {
+            it.itemEntity.id == safeArgs.selectedItemEntityId
+        }?.itemEntity
     }
 
     private var isInEditMode: Boolean = false
@@ -73,8 +73,8 @@ class AddItemEntityFragment:BaseFragment() {
 
         })
 
-        sharedViewModel.transactionCompleteLiveData.observe(viewLifecycleOwner) { complete ->
-            if (complete) {
+        sharedViewModel.transactionCompleteLiveData.observe(viewLifecycleOwner) { event ->
+            event.getContent()?.let {
                 if (isInEditMode) {
                     navigateUp()
                     return@observe
@@ -121,12 +121,6 @@ class AddItemEntityFragment:BaseFragment() {
 
         }
     }
-
-    override fun onPause() {
-        super.onPause()
-        sharedViewModel.transactionCompleteLiveData.postValue(false)
-    }
-
     private fun saveItemEntityToDatabase() {
         val itemTitle = binding.titleEditText.text.toString().trim()
         if (itemTitle.isEmpty()) {

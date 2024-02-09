@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.tobuy.BaseFragment
+import com.example.tobuy.R
 import com.example.tobuy.databinding.FragmentProfileBinding
 
 class ProfileFragment: BaseFragment() {
@@ -34,8 +35,13 @@ class ProfileFragment: BaseFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        mainActivity.hideKeyboard(requireView())
+    }
+
     private fun onCategoryEmptyStateClicked() {
-        TODO("Not yet implemented")
+        navigateViaNavGraph(R.id.action_profileFragment_to_addCategoryEntityFragment)
     }
 
     override fun onDestroy() {
