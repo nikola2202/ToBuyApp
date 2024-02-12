@@ -1,10 +1,12 @@
 package com.example.tobuy
 
+import androidx.annotation.ColorInt
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavDirections
 import com.example.tobuy.arch.ToBuyViewModel
 import com.example.tobuy.database.AppDatabase
+import com.google.android.material.color.MaterialColors
 
 abstract class BaseFragment:Fragment() {
 

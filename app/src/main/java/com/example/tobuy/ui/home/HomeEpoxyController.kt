@@ -6,7 +6,6 @@ import androidx.core.view.isVisible
 import com.airbnb.epoxy.EpoxyController
 import com.example.tobuy.R
 import com.example.tobuy.addHeaderModel
-import com.example.tobuy.database.entity.ItemEntity
 import com.example.tobuy.database.entity.ItemWithCategoryEntity
 import com.example.tobuy.databinding.ModelEmptyStateBinding
 import com.example.tobuy.databinding.ModelItemEntityBinding
