@@ -90,13 +90,15 @@ class HomeEpoxyController(
                 itemEntityInterface.onItemSelected(itemEntity.itemEntity)
             }
 
+            categoryTextView.text = itemEntity.categoryEntity?.name
+
         }
     }
 
     class EmptyStateEpoxyModel:
             ViewBindingKotlinModel<ModelEmptyStateBinding>(R.layout.model_empty_state) {
         override fun ModelEmptyStateBinding.bind() {
-            // todo
+            //Nothing to do
         }
 
     }

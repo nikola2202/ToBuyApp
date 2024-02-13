@@ -45,12 +45,21 @@ class ToBuyViewModel:ViewModel() {
         }
     }
 
-    fun onCategorySelected(categoryId: String) {
-        val loadingViewState = CategoriesViewState(isLoading = true)
-        _categoriesViewStateLiveData.value = loadingViewState
+    fun onCategorySelected(categoryId: String,showLoading: Boolean = false) {
+        if (showLoading) {
+            val loadingViewState = CategoriesViewState(isLoading = true)
+            _categoriesViewStateLiveData.value = loadingViewState
+        }
 
         val categories = categoryEntitiesLiveData.value?: return
         val viewStateItemList = ArrayList<CategoriesViewState.Item>()
+
+        // Default category (unselecting a category)
+        viewStateItemList.add(CategoriesViewState.Item(
+            categoryEntity = CategoryEntity.getDefaultCategory(),
+            isSelected = categoryId == CategoryEntity.DEFAULT_CATEGORY_ID
+        ))
+
         categories.forEach {
             viewStateItemList.add(CategoriesViewState.Item(
                 categoryEntity = it,
@@ -71,6 +80,11 @@ class ToBuyViewModel:ViewModel() {
             val categoryEntity: CategoryEntity = CategoryEntity(),
             val isSelected: Boolean = false
         )
+
+        fun getSelectedCategoryId(): String {
+            return itemList.find { it.isSelected }?.categoryEntity?.id?: CategoryEntity.DEFAULT_CATEGORY_ID
+        }
+
     }
 
     // region itemEntity

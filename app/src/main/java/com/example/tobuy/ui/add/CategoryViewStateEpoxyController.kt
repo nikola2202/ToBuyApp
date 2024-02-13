@@ -9,7 +9,9 @@ import com.example.tobuy.getAttrColor
 import com.example.tobuy.ui.epoxy.LoadingEpoxyModel
 import com.example.tobuy.ui.epoxy.ViewBindingKotlinModel
 
-class CategoryViewStateEpoxyController: EpoxyController() {
+class CategoryViewStateEpoxyController(
+    private val onCategorySelected: (String) -> Unit
+): EpoxyController() {
     var viewState = ToBuyViewModel.CategoriesViewState()
         set(value) {
             field = value
@@ -23,14 +25,17 @@ class CategoryViewStateEpoxyController: EpoxyController() {
         }
 
         viewState.itemList.forEach { item ->
-            CategoryViewStateItem(item).id(item.categoryEntity.id).addTo(this)
+            CategoryViewStateItem(item, onCategorySelected).id(item.categoryEntity.id).addTo(this)
         }
     }
     data class CategoryViewStateItem(
-        val item: ToBuyViewModel.CategoriesViewState.Item
+        val item: ToBuyViewModel.CategoriesViewState.Item,
+        private val onCategorySelected: (String) -> Unit
     ): ViewBindingKotlinModel<ModelCategoryItemSelectionBinding>(R.layout.model_category_item_selection) {
         override fun ModelCategoryItemSelectionBinding.bind() {
+
             textView.text = item.categoryEntity.name
+            root.setOnClickListener { onCategorySelected(item.categoryEntity.id) }
 
             val colorRes = if (item.isSelected) com.airbnb.viewmodeladapter.R.attr.colorSecondary
             else androidx.appcompat.R.attr.colorPrimary
