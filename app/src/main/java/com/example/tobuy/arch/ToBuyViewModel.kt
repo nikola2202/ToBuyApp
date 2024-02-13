@@ -20,6 +20,13 @@ class ToBuyViewModel:ViewModel() {
 
     val transactionCompleteLiveData = MutableLiveData<Event<Boolean>>()
 
+    //Home page
+    var currentSort: HomeViewState.Sort = HomeViewState.Sort.NONE
+    private val _homeViewStateLiveData = MutableLiveData<HomeViewState>()
+    val homeViewStateLiveData: LiveData<HomeViewState>
+        get() = _homeViewStateLiveData
+
+    // Categories in the Add/Update screen
     private val _categoriesViewStateLiveData = MutableLiveData<CategoriesViewState>()
     val categoriesViewStateLiveData: LiveData<CategoriesViewState>
         get() = _categoriesViewStateLiveData
@@ -36,6 +43,9 @@ class ToBuyViewModel:ViewModel() {
         viewModelScope.launch {
             repository.getAllItemWithCategoryEntities().collect { items ->
                 itemWithCategoryEntitiesLiveData.postValue(items)
+
+                updateHomeViewState(items)
+
             }
         }
         viewModelScope.launch {
@@ -43,6 +53,72 @@ class ToBuyViewModel:ViewModel() {
                 categoryEntitiesLiveData.postValue(categories)
             }
         }
+    }
+
+    fun updateHomeViewState(items: List<ItemWithCategoryEntity>) {
+
+        val dataList = ArrayList<HomeViewState.DataItem<*>>()
+        when(currentSort) {
+            HomeViewState.Sort.NONE -> {
+                var currentPriority: Int = -1
+                items.sortedByDescending {
+                    it.itemEntity.priority
+                }.forEach { item->
+                    if (item.itemEntity.priority != currentPriority) {
+                        val headerItem = HomeViewState.DataItem(
+                            data = getHeaderTextForPriority(currentPriority),
+                            isHeader = true
+                        )
+                        dataList.add(headerItem)
+                    }
+                    val dataItem = HomeViewState.DataItem(data = item)
+                    dataList.add(dataItem)
+                }
+            }
+            HomeViewState.Sort.CATEGORY -> {
+
+            }
+            HomeViewState.Sort.OLDEST -> {
+
+            }
+            HomeViewState.Sort.NEWEST -> {
+
+            }
+        }
+        _homeViewStateLiveData.postValue(
+            HomeViewState(
+                dataList = dataList,
+                isLoading = false,
+                sort = currentSort
+            )
+        )
+    }
+
+    private fun getHeaderTextForPriority(priority: Int): String {
+        return when (priority) {
+            1 -> "Low"
+            2 -> "Medium"
+            else -> "High"
+        }
+    }
+
+    data class HomeViewState(
+        val dataList: List<DataItem<*>> = emptyList(),
+        val isLoading: Boolean = false,
+        val sort: Sort = Sort.NONE
+    ) {
+        data class DataItem<T>(
+            val data: T,
+            val isHeader: Boolean = false
+        )
+
+        enum class Sort(val displayName: String) {
+            NONE("None"),
+            CATEGORY("Category"),
+            OLDEST("Oldest"),
+            NEWEST("Newest")
+        }
+
     }
 
     fun onCategorySelected(categoryId: String,showLoading: Boolean = false) {
