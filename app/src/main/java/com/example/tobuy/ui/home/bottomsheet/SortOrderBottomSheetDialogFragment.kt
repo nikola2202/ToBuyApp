@@ -29,10 +29,14 @@ class SortOrderBottomSheetDialogFragment: BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val epoxyController = BottomSheetEpoxyController(ToBuyViewModel.HomeViewState.Sort.values()){
-            viewModel.currentSort = it
+        val epoxyController = BottomSheetEpoxyController(
+            viewModel.currentSort,
+            ToBuyViewModel.HomeViewState.Sort.values()
+        ) { selectedSort ->
+            viewModel.currentSort = selectedSort
             dismiss()
         }
+
 
         binding.epoxyRecyclerView.setControllerAndBuildModels(epoxyController)
 

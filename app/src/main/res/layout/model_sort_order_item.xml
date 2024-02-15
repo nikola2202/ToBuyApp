@@ -23,8 +23,8 @@
 
     <View
         android:id="@+id/view"
-        android:layout_width="14dp"
-        android:layout_height="14dp"
+        android:layout_width="11dp"
+        android:layout_height="12dp"
         android:background="?attr/colorSecondary"
         app:layout_constraintBottom_toBottomOf="@id/textView"
         app:layout_constraintEnd_toEndOf="parent"
